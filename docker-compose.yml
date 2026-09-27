@@ -1,0 +1,27 @@
+services:
+  cli-login-system:
+    build: .
+    image: cli-login-system:latest
+    container_name: cli-login-system
+
+    # This is an interactive terminal application, so both stdin_open and
+    # tty must be enabled and it must be started with `docker compose run`
+    # (a plain `docker compose up` would start it detached, with no console).
+    stdin_open: true
+    tty: true
+
+    volumes:
+      # Named volume: the SQLite database file persists here across
+      # container restarts, rebuilds, and recreation.
+      - db-data:/data
+
+    environment:
+      DB_PATH: /data/app.db
+      SESSION_TIMEOUT: 15m          # session idle timeout
+      MAX_FAILED_ATTEMPTS: "5"      # failed logins before lockout
+      LOCKOUT_DURATION: 5m          # how long an account stays locked
+      BCRYPT_COST: "12"             # bcrypt work factor
+      TOTP_ISSUER: CLI-Login-System # shown in authenticator apps
+
+volumes:
+  db-data:

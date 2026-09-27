@@ -1,0 +1,18 @@
+# Build artifacts
+/cli-login-system
+/bin/
+
+# Local database files
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+
+# CLI history
+.cli-login-history
+
+# OS / editor cruft
+.DS_Store
+*.swp
+.idea/
+.vscode/
